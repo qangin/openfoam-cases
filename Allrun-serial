@@ -1,24 +1,24 @@
-#!/bin/sh
+!/bin/sh
 cd "${0%/*}" || exit                                # Run from this directory
 . ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
 #------------------------------------------------------------------------------
 
-mkdir -p constant/triSurface
+#mkdir -p constant/triSurface
 
-cp -f "$FOAM_TUTORIALS"/resources/geometry/geom.stl.gz constant/triSurface
+#cp -f "$FOAM_TUTORIALS"/resources/geometry/geom.stl.gz constant/triSurface
 
-rm -rf constant/polyMesh/sets
+#rm -rf constant/polyMesh/sets
 
-runApplication blockMesh
+#runApplication blockMesh
 
-runApplication surfaceFeatureExtract
+#runApplication surfaceFeatureExtract
 
-runApplication snappyHexMesh -overwrite
+#runApplication snappyHexMesh -overwrite
 
 # Restore initial fields
 restore0Dir
 
-runApplication splitMeshRegions -cellZones -overwrite
+#runApplication splitMeshRegions -cellZones -overwrite
 
 # Remove fluid fields from solid regions (important for post-processing)
 for region in $(foamListRegions solid)

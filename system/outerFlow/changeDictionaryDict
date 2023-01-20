@@ -14,48 +14,233 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-boundary
-{
-    minY
-    {
-        type            patch;
-    }
-    minZ
-    {
-        type            patch;
-    }
-    maxZ
-    {
-        type            patch;
-    }
-}
 
-T
+U
 {
-    internalField   uniform 300;
+    internalField   uniform (0.1 0 0);
 
     boundaryField
     {
-        ".*"
+        fOuterFlow-htSurface2
         {
-            type            zeroGradient;
-            value           uniform 300;
+            type            noSlip;
+        }
+        fOuterFlow-htSurface3
+        {
+            type            noSlip;
         }
         "procBoundary.*"
         {
             type            processor;
         }
-        "heater_to_.*"
+        fOutp1
         {
-            type            compressible::turbulentTemperatureRadCoupledMixed;
-            Tnbr            T;
-            kappaMethod     solidThermo;
-            value           uniform 300;
+            type            flowRateInletVelocity;
+            massFlowRate    0.0016;
+            value           (0 0 0);
         }
-        minY
+        fOutp2
+        {
+            type            calculated;
+        }
+    }
+}
+
+T
+{
+    internalField   uniform 160;
+
+    boundaryField
+    {
+        fOuterFlow-htSurface2
+        {
+            type            cyclic;
+        }
+        fOuterFlow-htSurface3
+        {
+            type            cyclic;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+
+        fOutp1
         {
             type            fixedValue;
-            value           uniform 500;
+            value           uniform 160;
+        }
+        fOutp2
+        {
+            type            inletOutlet;
+            inletValue      uniform 160;
+            value           uniform 160;
+        }
+    }
+}
+
+omega
+{
+    internalField   uniform 2;
+
+    boundaryField
+    {
+        fOuterFlow-htSurface2
+        {
+            type            omegaWallFunction;
+            value           $internalField;
+        }
+        fOuterFlow-htSurface3
+        {
+            type            omegaWallFunction;
+            value           $internalField;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+
+        fOutp1
+        {
+            type            fixedValue;
+            value           $internalField;
+        }
+        fOutp2
+        {
+            type            fixedValue;
+            value           $internalField;
+        }
+    }
+}
+
+k
+{
+    internalField   uniform 0.00015;
+
+    boundaryField
+    {
+        fOuterFlow-htSurface2
+        {
+            type            kqRWallFunction;
+            value           $internalField;
+        }
+        fOuterFlow-htSurface3
+        {
+            type            kqRWallFunction;
+            value           $internalField;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+
+        fOutp1
+        {
+            type            fixedValue;
+            value           $internalField;
+        }
+        fOutp2
+        {
+            type            fixedValue;
+            Value           $internalField;
+        }
+    }
+}
+
+p_rgh
+{
+    internalField   uniform 1e5;
+
+    boundaryField
+    {
+        fOuterFlow-htSurface2
+        {
+            type            calculated;
+        }
+        fOuterFlow-htSurface3
+        {
+            type            calculated;
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+
+        fOutp1
+        {
+            type            calculated;
+        }
+        fOutp2
+        {
+            type            fixedValue;
+            value           uniform 1e5;
+        }
+    }
+}
+
+p
+{
+    internalField   uniform 1e5;
+
+    boundaryField
+    {
+        fOuterFlow-htSurface2
+        {
+            type            calculated;
+            value           uniform 1e5;
+        }
+        fOuterFlow-htSurface3;
+        {
+            type            calculated;
+            value           uniform 1e5'
+        }
+        "procBoundary.*"
+        {
+            type            processor;
+        }
+
+        fOutp1
+        {
+            type            calculated;
+            value           uniform 1e5;
+        }
+        fOutp2
+        {
+            type            calculated;
+            value           eniform 1e5;
+        }
+    }
+}
+nut
+{
+    internalField   uniform 5e-7;
+    boundaryField
+    {
+        fOuterFlow-htSurface2
+        {
+            type            nutkRoughWallFunction;
+            Ks              uniform 250e-9;
+            Cs              0.5;
+        }
+        fOuterFlow-htSurface3
+        {
+            type            nutkRoughWallFunction;
+            Ks              uniform 250e-9;
+            Cs              0.5;
+        }
+        "procBoundary.*"
+        {
+            type    processor;
+        }
+
+        fOutp1
+        {
+            type    zeroGradient;
+        }
+
+        fOutp2
+        {
+            type    zeroGradient;
         }
     }
 }

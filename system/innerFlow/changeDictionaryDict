@@ -20,25 +20,23 @@ U
 
     boundaryField
     {
-        ".*"
+        fInnerFlow-htSurface1
         {
-            type            fixedValue;
-            value           uniform (0 0 0);
+            type            noSlip;
         }
         "procBoundary.*"
         {
             type            processor;
         }
-        minX
+        fInp1
         {
-            type            fixedValue;
-            value           uniform (0.1 0 0);
+            type            flowRateInletVelocity;
+            massFlowRate    0.002;
+            value           (0 0 0);
         }
-        maxX
+        fInp2
         {
-            type            inletOutlet;
-            inletValue      uniform (0 0 0);
-            value           uniform (0.1 0 0);
+            type            calculated;
         }
     }
 }
@@ -49,141 +47,166 @@ T
 
     boundaryField
     {
-        ".*"
+        fInnerFlow-htSurface1
         {
-            type            zeroGradient;
+            type            cyclic;
         }
         "procBoundary.*"
         {
             type            processor;
         }
 
-        minX
+        fInp1
         {
             type            fixedValue;
             value           uniform 300;
         }
-        maxX
+        fInp2
         {
             type            inletOutlet;
             inletValue      uniform 300;
             value           uniform 300;
         }
-
-        "topAir_to_.*"
-        {
-            type            compressible::turbulentTemperatureRadCoupledMixed;
-            Tnbr            T;
-            kappaMethod     fluidThermo;
-            value           uniform 300;
-        }
     }
 }
 
-epsilon
+omega
 {
-    internalField   uniform 0.01;
+    internalField   uniform 2;
 
     boundaryField
     {
-        ".*"
+        fInnerFlow-htSurface1
         {
-            type            epsilonWallFunction;
-            value           uniform 0.01;
+            type            omegaWallFunction;
+            value           $internalField;
         }
         "procBoundary.*"
         {
             type            processor;
         }
 
-        minX
+        fInp1
         {
             type            fixedValue;
-            value           uniform 0.01;
+            value           $internalField;
         }
-        maxX
+        fInp2
         {
-            type            inletOutlet;
-            inletValue      uniform 0.01;
-            value           uniform 0.01;
+            type            fixedValue;
+            value           $internalField;
         }
     }
 }
 
 k
 {
-    internalField   uniform 0.1;
+    internalField   uniform 0.00015;
 
     boundaryField
     {
-        ".*"
+        fInnerFlow-htSurface1
         {
             type            kqRWallFunction;
-            value           uniform 0.1;
+            value           $internalField;
         }
         "procBoundary.*"
         {
             type            processor;
         }
 
-        minX
+        fInp1
         {
             type            fixedValue;
-            value           uniform 0.1;
+            value           $internalField;
         }
-        maxX
+        fInp2
         {
-            type            inletOutlet;
-            inletValue      uniform 0.1;
-            value           uniform 0.1;
+            type            fixedValue;
+            Value           $internalField;
         }
     }
 }
 
 p_rgh
 {
-    internalField   uniform 1e5;
+    internalField   uniform 3e7;
 
     boundaryField
     {
-        ".*"
+        fInnerFlow-htSurface1
         {
-            type            fixedFluxPressure;
-            value           uniform 1e5;
+            type            calculated;
         }
         "procBoundary.*"
         {
             type            processor;
         }
 
-        maxX
+        fInp1
+        {
+            type            calculated;
+        }
+        fInp2
         {
             type            fixedValue;
-            value           uniform 1e5;
+            value           uniform 3e7;
         }
     }
 }
 
 p
 {
-    internalField   uniform 1e5;
+    internalField   uniform 3e7;
 
     boundaryField
     {
-        ".*"
+        fInnerFlow-htSurface1
         {
             type            calculated;
-            value           uniform 1e5;
+            value           uniform 3e7;
         }
         "procBoundary.*"
         {
             type            processor;
         }
 
-        maxX
+        fInp1
         {
             type            calculated;
-            value           uniform 1e5;
+            value           uniform 3e7;
+        }
+        fInp2
+        {
+            type            calculated;
+            value           eniform 3e7;
+        }
+    }
+}
+nut
+{
+    internalField   uniform 5e-7;
+    boundaryField
+    {
+        fInnerFlow-htSurface1
+        {
+            type            nutkRoughWallFunction;
+            Ks              uniform 250e-9;
+            Cs              0.5;
+        }
+        "procBoundary.*"
+        {
+            type    processor;
+        }
+
+        fInp1
+        {
+            type    zeroGradient;
+        }
+
+        fInp2
+        {
+            type    zeroGradient;
         }
     }
 }

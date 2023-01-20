@@ -13,40 +13,34 @@ FoamFile
     object      changeDictionaryDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-boundary
-{
-    minZ
-    {
-        type            patch;
-    }
-    maxZ
-    {
-        type            patch;
-    }
-}
-
 T
 {
-    internalField   uniform 300;
+    internalField   uniform 180;
 
     boundaryField
     {
-        ".*"
+        fWall
         {
             type            zeroGradient;
-            value           uniform 300;
+            value           uniform 180;
         }
         "procBoundary.*"
         {
             type            processor;
         }
-        "leftSolid_to_.*"
+        fInnerFlow-htSurface1
         {
             type            compressible::turbulentTemperatureRadCoupledMixed;
             Tnbr            T;
             kappaMethod     solidThermo;
             value           uniform 300;
+        }
+        fOuterFlow-htSurface2
+        {
+            type            compressible::turbulentTemperatureRadCoupledMixed;
+            Tnbr            T;
+            kappaMethod     solidThermo;
+            value           uniform 160;
         }
     }
 }
