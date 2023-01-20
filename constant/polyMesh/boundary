@@ -16,43 +16,79 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-6
+11
 (
-    fg_recSep_inTub
+    fInp1
     {
         type            patch;
-        nFaces          72;
-        startFace       974280;
+        nFaces          52;
+        startFace       920509;
     }
-    fg_recSep_inp1
+    fInp2
     {
         type            patch;
-        nFaces          60;
-        startFace       974352;
+        nFaces          58;
+        startFace       920561;
     }
-    fg_recSep_inp2
-    {
-        type            patch;
-        nFaces          60;
-        startFace       974412;
-    }
-    fg_recSep_outSkin
-    {
-        type            patch;
-        nFaces          5946;
-        startFace       974472;
-    }
-    fg_recSep_outp1
+    fOutp1
     {
         type            patch;
         nFaces          254;
-        startFace       980418;
+        startFace       920619;
     }
-    fg_recSep_outp2
+    fOutp2
     {
         type            patch;
-        nFaces          252;
-        startFace       980672;
+        nFaces          250;
+        startFace       920873;
+    }
+    fOuterBox-htSurface3
+    {
+        type            cyclic;
+        nFaces          5656;
+        startFace       921123;
+        neighbourPatch  fOuterFlow-htSurface3;
+    }
+    fInnerTube-htSurface1
+    {
+        type            cyclic;
+        nFaces          15954;
+        startFace       926779;
+        neighbourPatch  fInnerFlow-htSurface1;
+    }
+    fInnerTube-htSurface2
+    {
+        type            cyclic;
+        nFaces          13108;
+        startFace       942733;
+        neighbourPatch  fOuterFlow-htSurface2;
+    }
+    fOuterFlow-htSurface3
+    {
+        type            cyclic;
+        nFaces          12826;
+        startFace       955841;
+        neighbourPatch  fOuterBox-htSurface3;
+    }
+    fOuterFlow-htSurface2
+    {
+        type            cyclic;
+        nFaces          10098;
+        startFace       968667;
+        neighbourPatch  fInnerTube-htSurface2;
+    }
+    fInnerFlow-htSurface1
+    {
+        type            cyclic;
+        nFaces          17316;
+        startFace       978765;
+        neighbourPatch  fInnerTube-htSurface1;
+    }
+    fWalls
+    {
+        type            wall;
+        nFaces          5812;
+        startFace       996081;
     }
 )
 
